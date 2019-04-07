@@ -15,6 +15,9 @@ PODS:
     - FirebaseAuth (= 5.4.2)
   - Firebase/CoreOnly (5.20.1):
     - FirebaseCore (= 5.4.1)
+  - Firebase/Database (5.20.1):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (= 5.1.1)
   - FirebaseAuth (5.4.2):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
@@ -24,16 +27,22 @@ PODS:
   - FirebaseCore (5.4.1):
     - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseDatabase (5.1.1):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.2)
+    - leveldb-library (~> 1.18)
   - GoogleUtilities/Environment (5.5.0)
   - GoogleUtilities/Logger (5.5.0):
     - GoogleUtilities/Environment
   - GTMSessionFetcher/Core (1.2.1)
+  - leveldb-library (1.20)
 
 DEPENDENCIES:
   - Alamofire
   - FBSDKCoreKit
   - FBSDKLoginKit
   - Firebase/Auth
+  - Firebase/Database
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -45,8 +54,10 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
+    - FirebaseDatabase
     - GoogleUtilities
     - GTMSessionFetcher
+    - leveldb-library
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
@@ -57,9 +68,11 @@ SPEC CHECKSUMS:
   FirebaseAuth: dd7bbf03a5aee0eafb3a1aee4d2812bd74bac890
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: f1a9a8be1aee4bf71a2fc0f4096df6788bdfda61
+  FirebaseDatabase: 2c15b0ea6f2c6eb5e57413f9d6340f1e50b81ae3
   GoogleUtilities: 6481e6318c5fcabaaa8513ef8120f329055d7c10
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
+  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
 
-PODFILE CHECKSUM: f52fc42382b6175fb1c06872231cf1c06e793092
+PODFILE CHECKSUM: c7221a4788aff4ba6327a1d338c2de28f5832577
 
 COCOAPODS: 1.6.1

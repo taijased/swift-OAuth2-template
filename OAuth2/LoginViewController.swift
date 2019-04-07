@@ -9,9 +9,12 @@
 import UIKit
 import FBSDKLoginKit
 import FirebaseAuth
+import FirebaseDatabase
 
 
 class LoginViewController: UIViewController {
+    
+    var userProfile: UserProfile?
 
     lazy var customFBLoginButton: UIButton = {
         let loginButton = UIButton()
@@ -29,14 +32,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         view.addVerticalGradientLayer(topColor: primaryColor, bottomColor: secondaryColor)
 
-        setupViews()
-
-
-//        if FBSDKAccessToken.currentAccessTokenIsActive() {
-//            print("User is logged in")
-//        }
-        
-        
+        setupViews()    
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -88,8 +84,6 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
             if result.isCancelled { return }
             else {
                 self.singIntoFirebase()
-                self.fetchFacebookFields()
-                self.openMainViewController()
             }
         }
     }
@@ -104,11 +98,12 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
         Auth.auth().signInAndRetrieveData(with: credentials) { (user, error) in
             
             if let error = error {
-                print("Something went wrong with our facebook user: ", error)
+                print("Что то пошло не так !Упс при аунтентификации в Facebook: ", error)
                 return
             }
             
-            print("Successfully logged in with our FB user: ", user!)
+            print("Успешная аунтентификация в Facebook")
+            self.fetchFacebookFields()
         }
     }
     
@@ -131,37 +126,33 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
             updated_time
             verified
         */
-        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, email, first_name, last_name, picture.type(large)"])?.start(completionHandler: { (_, result, error) in
-//            if let error = error {
-//                print(error)
-//                return
-//            }
-//
-//            if let userData = results as? [String: Any] {
-//                print(userData)
-//            }
-//
-            guard let userInfo = result as? [String: Any] else { return }
-            print(userInfo)
-            
-            if let imageURL = ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String {
-                //Download image from imageURL
-                print(imageURL)
-            }
-            
-        })
         
-        let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture.type(large)"])
-        let _ = request?.start(completionHandler: { (connection, result, error) in
-            guard let userInfo = result as? [String: Any] else { return } //handle the error
-            
-            //The url is nested 3 layers deep into the result so it's pretty messy
-            if let imageURL = ((userInfo["picture"] as? [String: Any])?["data"] as? [String: Any])?["url"] as? String {
-                //Download image from imageURL
+        FBSDKGraphRequest(graphPath: "me",
+                          parameters: ["fields": "id, name, email, first_name, last_name, picture.type(large)"])?.start(completionHandler: { (_, result, error) in
+            if let error = error {
+                print(error)
+                return
             }
+            guard let userData = result as? [String: Any] else { return }
+            self.userProfile = UserProfile(data: userData)
+            print("Публичные данные получены с  Facebook")
+            self.saveIntoFirebase()
         })
+    }
+    
+    private func saveIntoFirebase() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
-
+        Database.database().reference().child("users").updateChildValues([uid: userProfile?.fetchUserData() as Any]) { (error, _) in
+            if let error = error {
+                print(error)
+                return
+            }
+            print("Данныe сохранены в Firebase")
+            self.openMainViewController()
+        }
+        
+        
     }
     
 }

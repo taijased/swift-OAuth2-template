@@ -8,6 +8,7 @@ target 'OAuth2' do
 	pod 'FBSDKLoginKit'
 	pod 'Alamofire'
 	pod 'Firebase/Auth'
+	pod 'Firebase/Database'
 
   # Pods for OAuth2
 

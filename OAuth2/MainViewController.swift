@@ -9,9 +9,24 @@
 import UIKit
 import FBSDKLoginKit
 import FirebaseAuth
+import FirebaseDatabase
 
 
 class MainViewController: UIViewController {
+    
+    @IBOutlet weak var userEmail: UILabel! {
+        didSet {
+            userEmail.text = ""
+        }
+    }
+    @IBOutlet weak var userName: UILabel! {
+        didSet {
+            userName.text = ""
+        }
+    }
+    @IBOutlet weak var userPicture: UIImageView!
+    
+    var currentUser: UserProfile?
     
     lazy var fbLoginButton: UIButton = {
         let loginButton = FBSDKLoginButton()
@@ -25,10 +40,14 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.addVerticalGradientLayer(topColor: primaryColor, bottomColor: secondaryColor)
         checkLoggedIn()
         setupViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchUserData()
     }
     
     private func setupViews() {
@@ -61,6 +80,7 @@ extension MainViewController: FBSDKLoginButtonDelegate {
             print(error)
             return
         }
+        fetchUserData()
        
     }
     
@@ -72,10 +92,8 @@ extension MainViewController: FBSDKLoginButtonDelegate {
     private func openLoginViewController() {
         
         // проверяем пользователя в Firebase
-    
         do {
             try Auth.auth().signOut()
-            
             DispatchQueue.main.async {
                 let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                 let loginViewController = storyBoard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
@@ -85,7 +103,45 @@ extension MainViewController: FBSDKLoginButtonDelegate {
         } catch let error {
             print("Failed to sign out with error:" + error.localizedDescription)
         }
+        
     }
     
+    private func fetchUserData() {
+        if Auth.auth().currentUser != nil {
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            
+            Database.database().reference()
+            .child("users")
+            .child(uid)
+                .observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard let userData = snapshot.value as? [String: Any] else { return }
+                    self.currentUser = UserProfile(data: userData, true)
+                    print(userData)
+                    self.setupUserUI()
+                }) { (error) in
+                    print(error)
+            }
+        }
+    }
+    
+    private func setupUserUI() {
+        
+        guard let user = currentUser else { return }
+        let url = URL(string: user.picture!)
+        DispatchQueue.global().async {
+            let data = try? Data(contentsOf: url!)
+            DispatchQueue.main.async {
+                self.userPicture.image = UIImage(data: data!)
+                self.userName.text = user.name!
+                self.userEmail.text = user.email!
+            }
+        }
+    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return .lightContent
+        }
+    }
+
 }
 

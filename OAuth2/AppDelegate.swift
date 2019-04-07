@@ -10,8 +10,6 @@ import UIKit
 import FBSDKCoreKit
 import Firebase
 
-//let primaryColor = UIColor(red: 210/255, green: 109/255, blue: 128/255, alpha: 1)
-
 let primaryColor = UIColor(hexValue: "#6FCF97", alpha: 1)!
 let secondaryColor = UIColor(red: 107/255, green: 148/255, blue: 230/255, alpha: 1)
 
