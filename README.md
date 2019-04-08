@@ -2,10 +2,10 @@
 ![](assets/main.png)
 
 ## Login
-![](assets/login.png | height=250)
+![](assets/login.png)
 
 ## Authorized user
-![](assets/user.png | height=250)
+![](assets/user.png)
 
 ### Getting public data from Facebook
 ```
