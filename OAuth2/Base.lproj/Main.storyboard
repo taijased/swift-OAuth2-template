@@ -17,9 +17,21 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2j8-nm-szS">
+                                <rect key="frame" x="197" y="368" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="2j8-nm-szS" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="aZW-jO-Mbp"/>
+                            <constraint firstItem="2j8-nm-szS" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="b9q-lT-lzJ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="acivityIndicator" destination="2j8-nm-szS" id="i7a-Vt-O0c"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -33,8 +45,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="VFy-Pr-r89">
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" alignment="center" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="VFy-Pr-r89">
                                 <rect key="frame" x="20" y="86" width="374" height="170"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oGB-uJ-30U">
                                         <rect key="frame" x="0.0" y="0.0" width="170" height="170"/>
@@ -50,7 +63,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="anh-Lb-L8a">
-                                                <rect key="frame" x="0.0" y="31.333333333333314" width="41.666666666666664" height="20.333333333333329"/>
+                                                <rect key="frame" x="0.0" y="31.333333333333336" width="41.666666666666664" height="20.333333333333336"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -59,16 +72,19 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ty4-sJ-0nv">
+                                <rect key="frame" x="197" y="368" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="i8j-a6-QJR" firstAttribute="trailing" secondItem="VFy-Pr-r89" secondAttribute="trailing" constant="20" id="mew-CH-CSI"/>
-                            <constraint firstItem="VFy-Pr-r89" firstAttribute="top" secondItem="i8j-a6-QJR" secondAttribute="top" constant="66" id="mxD-T1-fQv"/>
-                            <constraint firstItem="VFy-Pr-r89" firstAttribute="leading" secondItem="i8j-a6-QJR" secondAttribute="leading" constant="20" id="qHx-zL-prv"/>
+                            <constraint firstItem="ty4-sJ-0nv" firstAttribute="centerY" secondItem="i8j-a6-QJR" secondAttribute="centerY" id="Dio-HO-1I5"/>
+                            <constraint firstItem="ty4-sJ-0nv" firstAttribute="centerX" secondItem="i8j-a6-QJR" secondAttribute="centerX" id="pA5-VJ-8b8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="i8j-a6-QJR"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="ty4-sJ-0nv" id="9N2-wa-BJj"/>
                         <outlet property="userEmail" destination="wsY-dO-bbA" id="zmd-Kf-xAM"/>
                         <outlet property="userName" destination="anh-Lb-L8a" id="Q9m-z3-PBZ"/>
                         <outlet property="userPicture" destination="oGB-uJ-30U" id="5wC-vn-hJu"/>

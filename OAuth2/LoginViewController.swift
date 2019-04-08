@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     
     var userProfile: UserProfile?
 
+    @IBOutlet weak var acivityIndicator: UIActivityIndicatorView!
     lazy var customFBLoginButton: UIButton = {
         let loginButton = UIButton()
         loginButton.backgroundColor = UIColor(hexValue: "#3B5999", alpha: 1)
@@ -30,6 +31,7 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        acivityIndicator.stopAnimating()
         view.addVerticalGradientLayer(topColor: primaryColor, bottomColor: secondaryColor)
 
         setupViews()    
@@ -50,14 +52,15 @@ class LoginViewController: UIViewController {
 extension LoginViewController: FBSDKLoginButtonDelegate {
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
+        print("<#T##items: Any...##Any#>")
         if error != nil {
             print(error)
             return
         }
-        
+
         guard FBSDKAccessToken.currentAccessTokenIsActive() else { return }
-        
+
+
         openMainViewController()
         print("Successfully logged in with facebook...")
     }
@@ -73,6 +76,9 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
     @objc private func handleCustomFBLogin() {
         
         FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) { (result, error) in
+            
+            self.acivityIndicator.startAnimating()
+            self.customFBLoginButton.isHidden = true
             
             if let error = error {
                 print(error.localizedDescription)
@@ -102,7 +108,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                 return
             }
             
-            print("Успешная аунтентификация в Facebook")
+//            print("Успешная аунтентификация в Facebook")
             self.fetchFacebookFields()
         }
     }
@@ -135,7 +141,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
             }
             guard let userData = result as? [String: Any] else { return }
             self.userProfile = UserProfile(data: userData)
-            print("Публичные данные получены с  Facebook")
+//            print("Публичные данные получены с  Facebook")
             self.saveIntoFirebase()
         })
     }
@@ -148,7 +154,9 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                 print(error)
                 return
             }
-            print("Данныe сохранены в Firebase")
+//            print("Данныe сохранены в Firebase")
+            self.acivityIndicator.stopAnimating()
+            self.customFBLoginButton.isHidden = false
             self.openMainViewController()
         }
         

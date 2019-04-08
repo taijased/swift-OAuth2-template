@@ -14,6 +14,7 @@ import FirebaseDatabase
 
 class MainViewController: UIViewController {
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var userEmail: UILabel! {
         didSet {
             userEmail.text = ""
@@ -131,9 +132,11 @@ extension MainViewController: FBSDKLoginButtonDelegate {
         DispatchQueue.global().async {
             let data = try? Data(contentsOf: url!)
             DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
                 self.userPicture.image = UIImage(data: data!)
                 self.userName.text = user.name!
                 self.userEmail.text = user.email!
+
             }
         }
     }
