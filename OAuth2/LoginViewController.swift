@@ -40,6 +40,15 @@ class LoginViewController: UIViewController {
         return loginButton
     }()
     
+    lazy var signInWithEmail: UIButton = {
+        
+        let loginButton = UIButton()
+        loginButton.frame = CGRect(x: 32, y: 480, width: view.frame.width - 60, height: 50)
+        loginButton.setTitle("Sign In with Email", for: .normal)
+        loginButton.addTarget(self, action: #selector(openSignInVC), for: .touchUpInside)
+        return loginButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         acivityIndicator.stopAnimating()
@@ -60,7 +69,12 @@ class LoginViewController: UIViewController {
 
     private func setupViews() {
         view.addSubview(customFBLoginButton)
-        view.addSubview(googleLoginButton )
+        view.addSubview(googleLoginButton)
+        view.addSubview(signInWithEmail)
+    }
+    
+    @objc private func openSignInVC() {
+        performSegue(withIdentifier: "SignIn", sender: self)
     }
 
 }

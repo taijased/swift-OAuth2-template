@@ -17,6 +17,7 @@
 		8A741715225A16FA00721FC1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741714225A16FA00721FC1 /* MainViewController.swift */; };
 		8A741717225A201000721FC1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A741716225A201000721FC1 /* GoogleService-Info.plist */; };
 		8A741719225A2F1B00721FC1 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A741718225A2F1B00721FC1 /* UserProfile.swift */; };
+		8AAF546C226E04DD001B99AB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAF546B226E04DD001B99AB /* SignInViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		8A741714225A16FA00721FC1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8A741716225A201000721FC1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8A741718225A2F1B00721FC1 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		8AAF546B226E04DD001B99AB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		8B168EC7CFB059F7F564F4F2 /* Pods-OAuth2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OAuth2.release.xcconfig"; path = "Target Support Files/Pods-OAuth2/Pods-OAuth2.release.xcconfig"; sourceTree = "<group>"; };
 		AF093D7586025F80D48CF9F3 /* Pods_OAuth2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OAuth2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -90,6 +92,7 @@
 				8A7416F7225A050300721FC1 /* Info.plist */,
 				8A741716225A201000721FC1 /* GoogleService-Info.plist */,
 				8A741701225A06CB00721FC1 /* OAuth2.entitlements */,
+				8AAF546B226E04DD001B99AB /* SignInViewController.swift */,
 			);
 			path = OAuth2;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 			files = (
 				8A741703225A0BA500721FC1 /* LoginViewController.swift in Sources */,
 				8A7416EC225A050200721FC1 /* AppDelegate.swift in Sources */,
+				8AAF546C226E04DD001B99AB /* SignInViewController.swift in Sources */,
 				8A741719225A2F1B00721FC1 /* UserProfile.swift in Sources */,
 				8A741713225A0C4E00721FC1 /* Extensions.swift in Sources */,
 				8A741715225A16FA00721FC1 /* MainViewController.swift in Sources */,
