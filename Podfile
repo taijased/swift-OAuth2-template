@@ -9,6 +9,7 @@ target 'OAuth2' do
 	pod 'Alamofire'
 	pod 'Firebase/Auth'
 	pod 'Firebase/Database'
+	pod 'GoogleSignIn'
 
   # Pods for OAuth2
 

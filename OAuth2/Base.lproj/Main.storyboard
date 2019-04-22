@@ -75,10 +75,22 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ty4-sJ-0nv">
                                 <rect key="frame" x="197" y="368" width="20" height="20"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wVh-3m-eaq">
+                                <rect key="frame" x="88" y="367.66666666666669" width="238" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="238" id="S5t-TE-hV5"/>
+                                    <constraint firstAttribute="height" constant="21" id="YWo-DD-Ag7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ty4-sJ-0nv" firstAttribute="centerY" secondItem="i8j-a6-QJR" secondAttribute="centerY" id="Dio-HO-1I5"/>
+                            <constraint firstItem="wVh-3m-eaq" firstAttribute="centerY" secondItem="i8j-a6-QJR" secondAttribute="centerY" id="VKo-lu-wef"/>
+                            <constraint firstItem="wVh-3m-eaq" firstAttribute="centerX" secondItem="i8j-a6-QJR" secondAttribute="centerX" id="lG5-gD-hLK"/>
                             <constraint firstItem="ty4-sJ-0nv" firstAttribute="centerX" secondItem="i8j-a6-QJR" secondAttribute="centerX" id="pA5-VJ-8b8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="i8j-a6-QJR"/>
@@ -88,6 +100,7 @@
                         <outlet property="userEmail" destination="wsY-dO-bbA" id="zmd-Kf-xAM"/>
                         <outlet property="userName" destination="anh-Lb-L8a" id="Q9m-z3-PBZ"/>
                         <outlet property="userPicture" destination="oGB-uJ-30U" id="5wC-vn-hJu"/>
+                        <outlet property="userProvider" destination="wVh-3m-eaq" id="NXy-Hi-nbu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KOd-4A-e6q" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKCoreKit
 import Firebase
+import GoogleSignIn
 
 let primaryColor = UIColor(hexValue: "#6FCF97", alpha: 1)!
 let secondaryColor = UIColor(red: 107/255, green: 148/255, blue: 230/255, alpha: 1)
@@ -23,18 +24,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
         FirebaseApp.configure()
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        
         return true
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        let appId = FBSDKSettings.appID()
+       /* let appId = FBSDKSettings.appID()
         
         if url.scheme != nil && url.scheme!.hasPrefix("fb\(appId)") && url.host ==  "authorize" {
             return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         }
         
-        return false
+        return false */
+        
+        
+        
+        return GIDSignIn.sharedInstance()
+            .handle(url,
+                    sourceApplication:options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+                    annotation: [:])
     }
     
 

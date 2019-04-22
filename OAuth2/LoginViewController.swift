@@ -10,6 +10,8 @@ import UIKit
 import FBSDKLoginKit
 import FirebaseAuth
 import FirebaseDatabase
+import GoogleSignIn
+
 
 
 class LoginViewController: UIViewController {
@@ -17,6 +19,7 @@ class LoginViewController: UIViewController {
     var userProfile: UserProfile?
 
     @IBOutlet weak var acivityIndicator: UIActivityIndicatorView!
+
     lazy var customFBLoginButton: UIButton = {
         let loginButton = UIButton()
         loginButton.backgroundColor = UIColor(hexValue: "#3B5999", alpha: 1)
@@ -28,13 +31,25 @@ class LoginViewController: UIViewController {
         loginButton.addTarget(self, action: #selector(handleCustomFBLogin), for: .touchUpInside)
         return loginButton
     }()
-
+    
+    
+    lazy var googleLoginButton: GIDSignInButton = {
+        
+        let loginButton = GIDSignInButton()
+        loginButton.frame = CGRect(x: 32, y: 400, width: view.frame.width - 60, height: 50)
+        return loginButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         acivityIndicator.stopAnimating()
         view.addVerticalGradientLayer(topColor: primaryColor, bottomColor: secondaryColor)
-
-        setupViews()    
+ 
+        setupViews()
+        
+        
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -45,6 +60,7 @@ class LoginViewController: UIViewController {
 
     private func setupViews() {
         view.addSubview(customFBLoginButton)
+        view.addSubview(googleLoginButton )
     }
 
 }
@@ -52,17 +68,15 @@ class LoginViewController: UIViewController {
 extension LoginViewController: FBSDKLoginButtonDelegate {
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        print("<#T##items: Any...##Any#>")
         if error != nil {
             print(error)
             return
         }
 
         guard FBSDKAccessToken.currentAccessTokenIsActive() else { return }
-
-
         openMainViewController()
         print("Successfully logged in with facebook...")
+        
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
@@ -78,8 +92,6 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
         FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) { (result, error) in
             
             self.acivityIndicator.startAnimating()
-            self.customFBLoginButton.isHidden = true
-            
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -108,7 +120,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                 return
             }
             
-//            print("Успешная аунтентификация в Facebook")
+            print("Успешная аунтентификация в Facebook")
             self.fetchFacebookFields()
         }
     }
@@ -141,26 +153,70 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
             }
             guard let userData = result as? [String: Any] else { return }
             self.userProfile = UserProfile(data: userData)
-//            print("Публичные данные получены с  Facebook")
+            print("Публичные данные получены с  Facebook")
             self.saveIntoFirebase()
         })
     }
     
     private func saveIntoFirebase() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         
+        guard
+            let uid = Auth.auth().currentUser?.uid,
+                userProfile?.fetchUserData() != nil
+            else { return }
+    
         Database.database().reference().child("users").updateChildValues([uid: userProfile?.fetchUserData() as Any]) { (error, _) in
             if let error = error {
                 print(error)
                 return
             }
-//            print("Данныe сохранены в Firebase")
+            print("Данныe сохранены в Firebase")
             self.acivityIndicator.stopAnimating()
-            self.customFBLoginButton.isHidden = false
             self.openMainViewController()
         }
+    }
+    
+}
+
+// MARK: Google SDK
+extension LoginViewController: GIDSignInDelegate, GIDSignInUIDelegate {
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print("Faild to log into Google: \(error)")
+            return
+        }
+        print("Successfully logged in Google")
+       
         
+        var imageURL: String?
+        if user.profile.hasImage {
+            imageURL = user.profile.imageURL(withDimension: 100).absoluteString
+        }
+        self.userProfile = UserProfile(id: user?.userID,
+                                      name: user?.profile.name,
+                                      lastName: user?.profile.familyName,
+                                      firstName: user?.profile.givenName,
+                                      email: user?.profile.email,
+                                      picture: imageURL)
+        
+        print("Публичные данные получены с  Google")
+      
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                       accessToken: authentication.accessToken)
+        
+        Auth.auth().signInAndRetrieveData(with: credential) { (user, error) in
+            
+            if let error = error {
+                print("Something went wrong with our Google user: ", error)
+                return
+            }
+            
+            print("Successfully logged into Firebase with Google")
+            self.saveIntoFirebase()
+        }
         
     }
+
     
 }

@@ -16,6 +16,17 @@ struct UserProfile {
     let email: String?
     let picture: String?
 
+    
+    init (id: String?, name: String?, lastName: String?, firstName: String?, email: String?, picture: String?) {
+    
+        self.id = id
+        self.name = name
+        self.lastName = lastName
+        self.firstName = firstName
+        self.email = email
+        self.picture = picture
+
+    }
     init (data: [String: Any?]) {
         self.id = data["id"] as? String
         self.name = data["name"] as? String
