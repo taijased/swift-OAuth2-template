@@ -1,9 +1,6 @@
 # OAuth2 template
 ![](assets/main.png)
 
-## Login
-![](assets/login.png)
-
 ## Authorized user
 ![](assets/user.png)
 
